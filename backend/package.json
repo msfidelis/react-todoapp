@@ -10,5 +10,12 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.5",
+    "node-restful": "^0.2.6",
+    "pm2": "^2.4.6"
+  }
 }
