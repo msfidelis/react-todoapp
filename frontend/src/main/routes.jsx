@@ -5,12 +5,11 @@ import Todo from '../todo/todo'
 import About from '../about/about'
 
 export default (props) => (
-    <Router history={hashHistory}>
-
-        <Route path='/todos' component={Todo} />
-        <Route path='/about' component={About} />
-
-        <Route from='*' to="/todos" />
-
+    <Router>
+        <div>
+            <Route path='/todos' component={Todo} />
+            <Route path='/about' component={About} />
+            <Route from='*' to="/todos" />
+        </div>
     </Router>
 )
