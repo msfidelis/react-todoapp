@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+
 import PageHeader from '../template/pageHeader'
 import TodoForm from './todoForm'
 import TodoList from './todoList'
+
+const URL = "http://localhost:3003/api/todos"
 
 export default class Todo extends Component 
 {
@@ -15,7 +19,17 @@ export default class Todo extends Component
         this.state = {description: '', list: []}
         this.handleChange = this.handleChange.bind(this)
         this.handleAdd = this.handleAdd.bind(this)
+        this.handleRemove = this.handleRemove.bind(this)
+
+        this.refresh()
     }
+    refresh() {
+        axios.get(`${URL}?sort=-createdAt`)
+        .then((res) => {
+            this.setState({...this.state, description: '', list:res.data})
+        })
+    }
+
     /**
      * Altera o valor na classe. 
      * Pega o valor do input
@@ -28,7 +42,23 @@ export default class Todo extends Component
      * Insere um registro
      */
     handleAdd() {
-        console.log(this.state.description)
+        var description = this.state.description
+        axios.post(URL, { description })
+            .then((res) => {
+                console.log(res)
+                this.refresh()
+            })
+    }
+    /**
+     * Remove um objeto
+     * @param {*} todo 
+     */
+    handleRemove(todo) {
+        axios.delete(`${URL}/${todo._id}`)
+        .then((res) => {
+            console.log(res)
+            this.refresh()
+        })
     }
     /**
      * Render
@@ -43,7 +73,11 @@ export default class Todo extends Component
                     handleChange={this.handleChange}
                     description={this.state.description}
                 />
-                {/*<TodoList />*/}
+                
+                <TodoList 
+                    list={this.state.list}
+                    handleRemove={this.handleRemove}
+                />
             </div>
         )
     }
